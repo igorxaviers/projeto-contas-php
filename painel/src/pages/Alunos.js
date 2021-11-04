@@ -9,8 +9,23 @@ class Alunos extends React.Component {
         this.state = { 
             nome: '',
             dataNascimento: '',
-            email: ''
+            email: '',
+            acertos: []
         };
+    }
+
+    componentDidMount() {
+        this.getAcertos();
+    }
+    
+    getAcertos = () => {
+        axios.post('http://localhost/contas/controllers/AcertoController.php', {acao: 4})
+        .then(res => {
+            console.log(res);
+            this.setState({ acertos: res.data });
+        })
+        .catch(err => console.log(err));
+
     }
 
     handleChange = (event) => {
@@ -53,6 +68,7 @@ class Alunos extends React.Component {
         const saida = 
         <div>
             <h1>Cadastro de Alunos</h1>
+            
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="nome">Nome</label>
