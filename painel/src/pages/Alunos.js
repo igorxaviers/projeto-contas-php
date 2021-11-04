@@ -19,9 +19,11 @@ class Alunos extends React.Component {
     }
     
     getAcertos = () => {
-        axios.post('http://localhost/contas/controllers/AcertoController.php', {acao: 4})
+        const cors = 'https://cors-anywhere.herokuapp.com/';
+        //https://contas-php.herokuapp.com/controllers/AcertoController.php
+        axios.post(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 4})
         .then(res => {
-            console.log(res);
+            console.log(res.data);
             this.setState({ acertos: res.data });
         })
         .catch(err => console.log(err));

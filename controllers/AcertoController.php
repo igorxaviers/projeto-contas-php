@@ -6,7 +6,7 @@
     if($data)
     {
         $acao = $data->acao;
-        echo "JSON STRING ".$acao;
+        // echo "JSON STRING ".$acao;
         /*
             TIPOS AÇÕES
             * 1 - CADASTRAR
