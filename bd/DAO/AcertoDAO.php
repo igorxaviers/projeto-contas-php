@@ -8,7 +8,7 @@
         
         function cadastrar($con, Acerto $acerto){
             $sql = "INSERT INTO acertos (valor, data, tipo, motivo) VALUES (:valor, :data, :tipo, :motivo)";
-            $stmt = $con::prepare($sql);
+            $stmt = $con->prepare($sql);
             $stmt->bindParam(':valor', $acerto->valor);
             $stmt->bindParam(':data', $acerto->data);
             $stmt->bindParam(':tipo', $acerto->tipo);
@@ -18,7 +18,7 @@
 
         function alterar($con, Acerto $acerto){
             $sql = "UPDATE acertos SET valor = :valor, data = :data, tipo = :tipo, motivo = :motivo WHERE id = :id";
-            $stmt = $con::prepare($sql);
+            $stmt = $con->prepare($sql);
             $stmt->bindParam(':valor', $acerto->valor);
             $stmt->bindParam(':data', $acerto->data);
             $stmt->bindParam(':tipo', $acerto->tipo);
@@ -45,13 +45,14 @@
     
         function getAcertos(mysqli $con) {
             $query = "SELECT * FROM acertos";
-            $result = $con->query($query);
+            $result = $con->query($query); 
             $listAcertos = array();
             foreach ($result as $row) {
                 $listAcertos[] = $row;
             }
             return $listAcertos;
         }
+
     }
 
 

@@ -59,20 +59,21 @@
             return $erros;
         }
 
-        public function cadastrar() {
+        public function cadastrar(mysqli $conexao) {
             $acertoDAO = new AcertoDAO();
-            $acertoDAO->cadastrar(Conexao::getConexao(), $this);
+            $certo = $acertoDAO->cadastrar($conexao, $this);
+            echo $certo;
+            return $certo;
         }
 
         public function excluir() {
             $acertoDAO = new AcertoDAO();
-            $acertoDAO->excluir(Conexao::getConexao(), $this->id);
+            return $acertoDAO->excluir(Conexao::getConexao(), $this->id);
         }
 
         public function alterar() {
             $acertoDAO = new AcertoDAO();
-            $acertoDAO->alterar(Conexao::getConexao(), $this);
-            
+            return $acertoDAO->alterar(Conexao::getConexao(), $this);
         }
 
         public function getAcerto($id) {
@@ -80,9 +81,9 @@
             return $acertoDAO->getAcerto(Conexao::getConexao(), $id);
         }
 
-        public function getAcertos() {
+        public function getAcertos(mysqli $conexao) {
             $acertoDAO = new AcertoDAO();
-            return $acertoDAO->getAcertos(Conexao::getConexao());
+            return $acertoDAO->getAcertos($conexao);
         }
 
     }
