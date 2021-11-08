@@ -1,16 +1,17 @@
 import axios from 'axios';
 import React from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-
+import 'react-toastify/dist/ReactToastify.css';
 class AcertosDetalhes extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            id: '',
-            valor: '',
-            data: '',
-            tipo: '',
-            motivo: '',
+            ace_id: '',
+            ace_valor: '',
+            ace_data: '',
+            ace_tipo: '',
+            ace_motivo: '',
+            loading: false
         }
     }
 
@@ -18,11 +19,11 @@ class AcertosDetalhes extends React.Component {
         const location = this.props.location.state;
         console.log(location);
         this.setState({
-            id: location.ace_id,
-            valor: location.ace_valor,
-            data: location.ace_data,
-            tipo: location.ace_tipo,
-            motivo: location.ace_motivo,
+            ace_id: location.ace_id,
+            ace_valor: location.ace_valor,
+            ace_data: location.ace_data,
+            ace_tipo: location.ace_tipo,
+            ace_motivo: location.ace_motivo,
             loading: false
         });
     }
@@ -39,16 +40,18 @@ class AcertosDetalhes extends React.Component {
     }
 
     alterarAcerto = () => {
+        console.log(this.state);
         this.setState({ loading: true });
         const acerto = {
-            ace_id: this.state.id,
-            ace_valor: this.state.valor,
-            ace_data: this.state.data,
-            ace_tipo: this.state.tipo,
-            ace_motivo: this.state.motivo,
+            ace_id: this.state.ace_id,
+            ace_valor: this.state.ace_valor,
+            ace_data: this.state.ace_data,
+            ace_tipo: this.state.ace_tipo,
+            ace_motivo: this.state.ace_motivo,
         };
         const cors = 'https://cors-anywhere.herokuapp.com/';
-        axios.post(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 2, acerto})
+        // axios.post(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 2, acerto})
+        axios.post('http://localhost/contas/controllers/AcertoController.php', {acao: 2, acerto})
         .then(res => {
             console.log(res.data);
             toast.success('Acerto alterado com sucesso!');
@@ -68,9 +71,9 @@ class AcertosDetalhes extends React.Component {
                         <input 
                             type="text"
                             className="form-control"
-                            name="id"
+                            name="ace_id"
                             placeholder=""
-                            value={this.state.id}
+                            value={this.state.ace_id}
                             onChange={this.handleChange}
                             readOnly  />
                     </div>
@@ -79,9 +82,9 @@ class AcertosDetalhes extends React.Component {
                         <input 
                             type="text"
                             className="form-control"
-                            name="valor"
+                            name="ace_valor"
                             placeholder="Valor do acerto"
-                            value={this.state.valor}
+                            value={this.state.ace_valor}
                             onChange={this.handleChange}  />
                     </div>
                     <div className="form-group">
@@ -89,9 +92,9 @@ class AcertosDetalhes extends React.Component {
                         <input 
                             type="date"
                             className="form-control"
-                            name="data"
+                            name="ace_data"
                             placeholder="Data do acerto"
-                            value={this.state.data}
+                            value={this.state.ace_data}
                             onChange={this.handleChange}  />
                     </div>
                     <div className="form-group">
@@ -99,9 +102,9 @@ class AcertosDetalhes extends React.Component {
                         <input 
                             type="text"
                             className="form-control"
-                            name="tipo"
+                            name="ace_tipo"
                             placeholder="Tipo do acerto"
-                            value={this.state.tipo}
+                            value={this.state.ace_tipo}
                             onChange={this.handleChange}  />
                     </div>
                     <div className="form-group">
@@ -109,9 +112,9 @@ class AcertosDetalhes extends React.Component {
                         <textarea 
                             type="text"
                             className="form-control"
-                            name="motivo"
+                            name="ace_motivo"
                             placeholder=""
-                            value={this.state.motivo}
+                            value={this.state.ace_motivo}
                             onChange={this.handleChange}>
                         </textarea>
                     </div>
@@ -119,7 +122,7 @@ class AcertosDetalhes extends React.Component {
                     <button 
                         type="button" 
                         className="btn btn-primary"
-                        onClick={() => this.alterarAcerto}
+                        onClick={this.alterarAcerto}
 
                         >Salvar</button>
                 </form>
