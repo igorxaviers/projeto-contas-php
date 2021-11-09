@@ -6,32 +6,23 @@
 
         public function __construct(){}
         
-        function cadastrar($con, Acerto $acerto){
-            $sql = "INSERT INTO acertos (valor, data, tipo, motivo) VALUES (:valor, :data, :tipo, :motivo)";
-            $stmt = $con->prepare($sql);
-            $stmt->bindParam(':valor', $acerto->valor);
-            $stmt->bindParam(':data', $acerto->data);
-            $stmt->bindParam(':tipo', $acerto->tipo);
-            $stmt->bindParam(':motivo', $acerto->motivo);
-            return $stmt->execute();   
+        function cadastrar(mysqli $con, Acerto $acerto){
+            var_dump($acerto);
+            $sql = "INSERT INTO acertos (ace_valor, ace_data, ace_tipo, ace_motivo) VALUES (".$acerto->valor.",'".$acerto->data."',".$acerto->tipo.",'".$acerto->motivo."')";
+            $res = $con->query($sql);   
+            return $res ? true : $con->error;
         }
 
-        function alterar($con, Acerto $acerto){
-            $sql = "UPDATE acertos SET valor = :valor, data = :data, tipo = :tipo, motivo = :motivo WHERE id = :id";
-            $stmt = $con->prepare($sql);
-            $stmt->bindParam(':valor', $acerto->valor);
-            $stmt->bindParam(':data', $acerto->data);
-            $stmt->bindParam(':tipo', $acerto->tipo);
-            $stmt->bindParam(':motivo', $acerto->motivo);
-            $stmt->bindParam(':id', $acerto->id);
-            return $stmt->execute();
+        function alterar(mysqli $con, Acerto $acerto){
+            $sql = "UPDATE acertos SET ace_valor=".$acerto->valor.", ace_data='".$acerto->data."', ace_tipo=".$acerto->tipo.", ace_motivo='".$acerto->motivo."' WHERE ace_id=".$acerto->id."";
+            $res = $con->query($sql);   
+            return $res ? true : $con->error;
         }
 
-        function excluir($con, int $id){
-            $sql = "DELETE FROM acertos WHERE ace_id = :id";
-            $stmt = $con::prepare($sql);
-            $stmt->bindParam(':id', $id);
-            return $stmt->execute();
+        function excluir(mysqli $con, int $id){
+            $sql = "DELETE FROM acertos WHERE ace_id = ".$id."";
+            $res = $con->query($sql); 
+            return $res ? true : $con->error;
         }
     
         function getAcerto(mysqli $con, int $ace_id) {

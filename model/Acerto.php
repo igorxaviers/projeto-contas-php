@@ -2,13 +2,13 @@
     include_once("../bd/DAO/AcertoDAO.php");
 
     class Acerto {
-        private $id;
-        private $valor;
-        private $data;
-        private $tipo; //1 - entrada, 2 - saida
-        private $motivo;
+        public $id;
+        public $valor;
+        public $data;
+        public $tipo; //1 - entrada, 2 - saida
+        public $motivo;
 
-        public function __construct(int $id=0, float $valor=0, DateTime $data=null, int $tipo=0, string $motivo="") {
+        public function __construct(int $id=0, float $valor=0, string $data="", int $tipo=0, string $motivo="") {
             $this->id = $id;
             $this->valor = $valor;
             $this->data = $data;
@@ -37,43 +37,43 @@
         }
 
         public function validar() {
-            $erros = array();
+            $valida = array();
             $ok = true;
-            if (strlen($this->valor) == 0) {
-                $erros[] = "Valor não pode ser vazio";
+            if ($this->valor == 0) {
+                $valida['erro'] = "Valor não pode ser vazio";
                 $ok = false;
             }
             if ($this->data == null) {
-                $erros[] = "Data não pode ser vazia";
+                $valida['erro'] = "Data não pode ser vazia";
                 $ok = false;
             }
             if (strlen($this->tipo) == 0) {
-                $erros[] = "Tipo não pode ser vazio";
+                $valida['erro'] = "Tipo não pode ser vazio";
                 $ok = false;
             }
             if (strlen($this->motivo) == 0) {
-                $erros[] = "Motivo não pode ser vazio";
+                $valida['erro'] = "Motivo não pode ser vazio";
                 $ok = false;
             }
-            array_push($erros, $ok);
-            return $erros;
+            $valida['ok'] = $ok;
+            return $valida;
         }
 
-        public function cadastrar(mysqli $conexao) {
+        public function cadastrar(mysqli $con) {
             $acertoDAO = new AcertoDAO();
-            $certo = $acertoDAO->cadastrar($conexao, $this);
+            $certo = $acertoDAO->cadastrar($con, $this);
             echo $certo;
             return $certo;
         }
 
-        public function excluir() {
+        public function excluir(mysqli $con, int $id) {
             $acertoDAO = new AcertoDAO();
-            return $acertoDAO->excluir(Conexao::getConexao(), $this->id);
+            return $acertoDAO->excluir($con, $id);
         }
 
-        public function alterar() {
+        public function alterar(mysqli $con) {
             $acertoDAO = new AcertoDAO();
-            return $acertoDAO->alterar(Conexao::getConexao(), $this);
+            return $acertoDAO->alterar($con, $this);
         }
 
         public function getAcerto($id) {
@@ -81,9 +81,9 @@
             return $acertoDAO->getAcerto(Conexao::getConexao(), $id);
         }
 
-        public function getAcertos(mysqli $conexao) {
+        public function getAcertos(mysqli $con) {
             $acertoDAO = new AcertoDAO();
-            return $acertoDAO->getAcertos($conexao);
+            return $acertoDAO->getAcertos($con);
         }
 
     }

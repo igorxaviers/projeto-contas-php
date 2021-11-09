@@ -32,8 +32,6 @@ class AcertosDetalhes extends React.Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        console.log(name, target, value);
-
         this.setState({
             [name]: value
         });
@@ -43,27 +41,27 @@ class AcertosDetalhes extends React.Component {
         console.log(this.state);
         this.setState({ loading: true });
         const acerto = {
-            ace_id: this.state.ace_id,
-            ace_valor: this.state.ace_valor,
+            ace_id: parseInt(this.state.ace_id),
+            ace_valor: parseFloat(this.state.ace_valor),
             ace_data: this.state.ace_data,
-            ace_tipo: this.state.ace_tipo,
+            ace_tipo: parseInt(this.state.ace_tipo),
             ace_motivo: this.state.ace_motivo,
         };
+        console.log( {acao: 2, acerto});
         const cors = 'https://cors-anywhere.herokuapp.com/';
-        // axios.post(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 2, acerto})
-        axios.post('http://localhost/contas/controllers/AcertoController.php', {acao: 2, acerto})
+        axios.get('http://localhost/contas/controllers/AcertoController.php', {acao: 2, acerto})
         .then(res => {
-            console.log(res.data);
-            toast.success('Acerto alterado com sucesso!');
+            console.log(res);
+            toast.success('Acerto alterado com sucesso!',{ position: "bottom-right", theme: "colored"});
         })
-        .catch(err => toast.error('Acerto alterado com sucesso!'))
+        .catch(err => toast.error('Erro ao alterar acerto!',{ position: "bottom-right", theme: "colored"}))
         .finally(() => this.setState({ loading: false }));
     }
 
     render() { 
         return ( 
             <div>
-                <h1>Detalhes</h1>
+                <h1 className="mb-5">Detalhes</h1>
 
                 <form>
                     <div className="form-group">

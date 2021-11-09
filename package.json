@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "axios": "^0.24.0",
+    "react-confirm-alert": "^2.7.0",
     "react-router": "^5.2.1",
-    "react-toastify": "^8.0.3"
+    "react-toastify": "^8.1.0"
   }
 }
