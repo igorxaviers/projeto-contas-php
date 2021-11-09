@@ -59,8 +59,18 @@
     }
 
     function alterar($data) {
-        $movimento = new MovimentoCaixa($data->id, $data->acerto->id, $data->caixa->id, $data->valor, $data->tipo);
-        $movimento->cadastrar(Conexao::getConexao());
+        $novoMovimento = $data->movimento;
+        $movimento = new MovimentoCaixa($novoMovimento->mov_id, $novoMovimento->acerto->id, $novoMovimento->caixa->id, $novoMovimento->mov_valor, $novoMovimento->mov_tipo);
+        $validaMovimento = $movimento->validar();
+        if($validaMovimento['ok'])
+        {
+            $result = $movimento->alterar(Conexao::getConexao());
+            echo json_encode($result);
+        }
+        else
+        {
+            echo json_encode($validaMovimento);
+        }
     }
     
     function excluir($id) {

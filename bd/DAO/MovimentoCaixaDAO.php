@@ -8,13 +8,13 @@
         
         function cadastrar(mysqli $con, MovimentoCaixa $movimento){
             var_dump($movimento);
-            $sql = "INSERT INTO movimento_caixa (mov_acerto, mov_caixa, mov_valor, mov_tipo) VALUES (".$movimento->acerto->id.",'".$movimento->caixa->id."',".$movimento->valor.",'".$movimento->tipo."')";
+            $sql = "INSERT INTO movimento_caixa (mov_acerto, mov_caixa, mov_valor, mov_tipo) VALUES (".$movimento->acerto->id.",".$movimento->caixa->id.",".$movimento->valor.",".$movimento->tipo.")";
             $res = $con->query($sql);   
             return $res ? true : $con->error;
         }
 
         function alterar(mysqli $con, MovimentoCaixa $movimento){
-            $sql = "UPDATE movimento_caixa SET mov_acerto=".$movimento->acerto->id.", mov_caixa='".$movimento->caixa->id."', mov_valor=".$movimento->valor.", mov_tipo='".$movimento->tipo."' WHERE mov_id=".$movimento->id."";
+            $sql = "UPDATE movimento_caixa SET mov_acerto=".$movimento->acerto->id.", mov_caixa=".$movimento->caixa->id.", mov_valor=".$movimento->valor.", mov_tipo=".$movimento->tipo." WHERE mov_id=".$movimento->id."";
             $res = $con->query($sql);   
             echo $con->error;
             return $res ? true : $con->error;

@@ -7,13 +7,13 @@
         
         function cadastrar(mysqli $con, Caixa $c){
             var_dump($c);
-            $sql = "INSERT INTO caixa (cai_saldo_Inicial, cai_saldo_Final, cai_status) VALUES (".$c->saldo_Inicial.",'".$c->saldo_Final."',".$c->status.")";
+            $sql = "INSERT INTO caixa (cai_saldo_inicial, cai_saldo_final, cai_status) VALUES (".$c->saldo_Inicial.",".$c->saldo_Final.",".$c->status.")";
             $res = $con->query($sql);   
             return $res ? true : $con->error;
         }
 
         function alterar(mysqli $con, Caixa $c){
-            $sql = "UPDATE caixa SET cai_saldo_Inicial=".$c->saldo_Inicial.", cai_saldo_Final='".$c->saldo_Final."', cai_status=".$c->status."' WHERE cai_id=".$c->id."";
+            $sql = "UPDATE caixa SET cai_saldo_inicial=".$c->saldo_Inicial.", cai_saldo_final=".$c->saldo_Final.", cai_status=".$c->status."' WHERE cai_id=".$c->id."";
             $res = $con->query($sql);   
             echo $con->error;
             return $res ? true : $con->error;
