@@ -65,7 +65,10 @@ class AcertosListar extends React.Component {
             <>
                 <h1>Acertos</h1>
                 <div className="container">
-                    {this.state.loading ? <i className="fas fa-circle-notch fa-spin"></i> : ''}
+                    <div className="mx-auto my-4">
+                        {this.state.loading ? <i className="fas fa-circle-notch fa-spin mx-auto"></i> : ''}
+
+                    </div>
                     <div className="row">
                         {
                             this.state.acertos.map(acerto => {
