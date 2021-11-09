@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 class AcertosDetalhes extends React.Component {
     constructor(props) {
         super(props);
@@ -49,6 +49,8 @@ class AcertosDetalhes extends React.Component {
         };
         console.log( {acao: 2, acerto});
         const cors = 'https://cors-anywhere.herokuapp.com/';
+        // axios.get(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 2, acerto})
+
         axios.get(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 2, acerto})
         .then(res => {
             console.log(res);

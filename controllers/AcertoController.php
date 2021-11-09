@@ -66,21 +66,31 @@
     }
 
     function alterar($data) {
-        var_dump($data);
-        $novoAcerto = $data->acerto;
-        $time = strtotime($novoAcerto->ace_data);
-        $dataAcerto = date('Y-m-d',$time);
-        $acerto = new Acerto($novoAcerto->ace_id, $novoAcerto->ace_valor, $dataAcerto, $novoAcerto->ace_tipo, $novoAcerto->ace_motivo);
-        $validaAcerto = $acerto->validar();
-        if($validaAcerto['ok'])
-        {
-            $result = $acerto->alterar(Conexao::getConexao());
-            echo json_encode($result);
-        }
-        else
-        {
-            echo json_encode($validaAcerto);
-        }
+        // var_dump($data);
+        // $novoAcerto = $data->acerto;
+        // $time = strtotime($novoAcerto->ace_data);
+        // $dataAcerto = date('Y-m-d',$time);
+        // $acerto = new Acerto($novoAcerto->ace_id, $novoAcerto->ace_valor, $dataAcerto, $novoAcerto->ace_tipo, $novoAcerto->ace_motivo);
+        // $validaAcerto = $acerto->validar();
+        
+        // if($validaAcerto['ok'])
+        // {
+            // $result = $acerto->alterar(Conexao::getConexao());
+            // $result = json_encode($result);
+            // echo $result;
+        // }
+        // else
+        // {
+        //     echo json_encode($validaAcerto);
+        //     $validaAcerto = json_encode($validaAcerto);
+        //     echo $validaAcerto;
+        // }
+
+        $teste = "mensagem";
+        $testejson = json_encode($teste);
+        echo $testejson;
+
+
     }
     
     function excluir($id) {
