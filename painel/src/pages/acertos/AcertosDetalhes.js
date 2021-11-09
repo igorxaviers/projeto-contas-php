@@ -49,7 +49,7 @@ class AcertosDetalhes extends React.Component {
         };
         console.log( {acao: 2, acerto});
         const cors = 'https://cors-anywhere.herokuapp.com/';
-        axios.get('http://localhost/contas/controllers/AcertoController.php', {acao: 2, acerto})
+        axios.get(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 2, acerto})
         .then(res => {
             console.log(res);
             toast.success('Acerto alterado com sucesso!',{ position: "bottom-right", theme: "colored"});

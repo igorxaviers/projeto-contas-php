@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import './Acertos.scss';
 import { Link } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
@@ -22,6 +23,7 @@ class AcertosListar extends React.Component {
         this.setState({ loading: true });
         //https://contas-php.herokuapp.com/controllers/AcertoController.php
         const cors = 'https://cors-anywhere.herokuapp.com/';
+        // axios.post(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 4})
         axios.post(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 4})
         .then(res => {
             console.log(res.data);
@@ -65,7 +67,7 @@ class AcertosListar extends React.Component {
             <>
                 <h1>Acertos</h1>
                 <div className="container">
-                    <div className="mx-auto my-4">
+                    <div className="loading">
                         {this.state.loading ? <i className="fas fa-circle-notch fa-spin mx-auto"></i> : ''}
 
                     </div>
@@ -76,12 +78,12 @@ class AcertosListar extends React.Component {
 
                                     <div className="col-md-6" key={acerto.ace_id}>
                                         <div className="bg-white shadow-sm rounded b-0 mb-3 p-4" >
-                                            <div class="row gx-5">
-                                                <div class="col">
+                                            <div className="row gx-5">
+                                                <div className="col">
                                                     <h5 className="m-0">Acerto <strong className="badge text-black bg-light">{acerto.ace_id}</strong></h5>
                                                 </div>
-                                                <div class="col">
-                                                    <p className="p-2 rounded bg-light text-dark"> <i class="far fa-calendar-alt"></i> {acerto.ace_data}</p>
+                                                <div className="col">
+                                                    <p className="p-2 rounded bg-light text-dark"> <i className="far fa-calendar-alt"></i> {acerto.ace_data}</p>
                                                 </div>
                                             </div>
                                             
