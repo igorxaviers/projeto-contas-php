@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 import AcertosListar from './pages/acertos/AcertosListar';
 import AcertosDetalhes from './pages/acertos/AcertosDetalhes';
 import Alunos from './pages/Alunos';
+import MovimentosListar from './pages/movimentos/MovimentosListar';
+import MovimentosDetalhes from './pages/movimentos/MovimentosDetalhes';
 
 function App() {
   return (
@@ -14,8 +16,8 @@ function App() {
         <Router>
           <div className="mt-4 row justify-content-evenly">
             <Link 
-              to="/asdasd"
-              className="btn bg-white col-2 shadow-sm">asdasd</Link>
+              to="/movimentos"
+              className="btn bg-white col-2 shadow-sm">Movimentos</Link>
 
             <Link 
               to="/acertos"
@@ -27,6 +29,10 @@ function App() {
             <Route path="/acertos/" exact component={AcertosListar} />
             <Route path="/acertos/listar" exact component={AcertosListar} />
             <Route path="/acertos/detalhes" exact render={(props) => <AcertosDetalhes {...props} />} />
+
+            <Route path="/movimentos" exact component={MovimentosListar} />
+            <Route path="/movimentos/listar" exact component={MovimentosListar} />
+            <Route path="/movimentos/detalhes" exact render={(props) => <MovimentosDetalhes {...props} />} />
           </Switch>
         </Router>
       </div>

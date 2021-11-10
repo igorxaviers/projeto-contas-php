@@ -85,7 +85,11 @@
 
         public function getMovimentos(mysqli $con) {
             $movimentoDAO = new MovimentoCaixaDAO();
-            return $movimentoDAO->getMovimentos($con);
+            $listMovimentos = $movimentoDAO->getMovimentos($con);
+            foreach($listMovimentos as $movimento )
+            {
+                $movimento->$this->setAcertoM($movimento->this->getId());
+            }
         }
 
     }

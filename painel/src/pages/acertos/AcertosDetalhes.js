@@ -52,7 +52,7 @@ class AcertosDetalhes extends React.Component {
             ace_tipo: parseInt(this.state.ace_tipo),
             ace_motivo: this.state.ace_motivo,
         };
-        axios.post('http://localhost/contas/controllers/AcertoController.php', JSON.stringify({acao: 1, acerto}))
+        axios.post('http://localhost/ProjetoPHP/controllers/AcertoController.php', JSON.stringify({acao: 1, acerto}))
         .then(res => {
             const response = res.data;
             if(response.success)
@@ -75,7 +75,7 @@ class AcertosDetalhes extends React.Component {
             ace_tipo: parseInt(this.state.ace_tipo),
             ace_motivo: this.state.ace_motivo,
         };
-        axios.post('http://localhost/contas/controllers/AcertoController.php', JSON.stringify({acao: 2, acerto}))
+        axios.post('http://localhost/ProjetoPHP/controllers/AcertoController.php', JSON.stringify({acao: 2, acerto}))
         .then(res => {
             const response = res.data;
             if(response.success)
