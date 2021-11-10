@@ -27,7 +27,7 @@ class MovimentosListar extends React.Component {
     getMovimentos = () => {
         this.setState({ loading: true });
         // axios.post(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 4})
-        axios.post('http://localhost/contas/controllers/MovimentoCaixaController.php', JSON.stringify({acao: 4}))
+        axios.post('http://localhost/ProjetoPHP/controllers/MovimentoCaixaController.php', JSON.stringify({acao: 4}))
         .then(res => {
             console.log(res.data);
             this.setState({ movimentos: res.data });
@@ -63,33 +63,36 @@ class MovimentosListar extends React.Component {
                     <div className="row">
                         {
                             this.state.movimentos.map(movimento => {
-                                    //Condição do if: movimento.acerto.ace_motivo.toLowerCase().includes(this.state.busca.toLowerCase())
-                                return (
-                                    <div className="col-md-12" key={movimento.id}>
-                                        <div className="bg-white shadow-sm rounded b-0 mb-3 p-4" >
-                                            <div className="row gx-5">
-                                                <div className="col">
-                                                    <h5 className="m-0">Movimento <strong className="badge text-black bg-light">{movimento.mov_id}</strong></h5>
-                                                </div>  
-                                            </div>
-                                            
-                                            <div className="">
-                                                <h5 className="">R$ {movimento.mov_valor}</h5>
-                                                <p className="">{movimento.mov_tipo === 1 ? 'Entrada' : 'Saída'}</p>
-                                                <p className="my-0 fw-bold">Motivo</p>
-                                                <p className="p-2 rounded bg-light">{movimento.mov_acerto}</p>
-                                            </div>
-
-                                            <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                                                <Link 
-                                                    to={{pathname: '/movimentos/detalhes', state: movimento}}
-                                                    className="btn btn-warning btn-sm">
-                                                    Ver detalhes
-                                                </Link>
+                                if(movimento.acerto.motivo.toLowerCase().includes(this.state.busca.toLowerCase()))
+                                {
+                                    return (
+                                        <div className="col-md-12" key={movimento.id}>
+                                            <div className="bg-white shadow-sm rounded b-0 mb-3 p-4" >
+                                                <div className="row gx-5">
+                                                    <div className="col">
+                                                        <h5 className="m-0">Movimentação {movimento.id}</h5>
+                                                    </div>  
+                                                </div>
+                                                
+                                                <div className="">
+                                                    <p className="">Valor: R$ {movimento.valor}</p>
+                                                    <p className="">Tipo: {movimento.tipo === 1 ? 'Entrada' : 'Saída'}</p>
+                                                    <p className="p-2 rounded bg-light">Motivo: {movimento.acerto.motivo}</p>
+                                                    <p className="">Data da Movimentação: {movimento.acerto.data}</p>
+                                                </div>
+    
+                                                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                    <Link 
+                                                        to={{pathname: '/movimentos/detalhes', state: movimento}}
+                                                        className="btn btn-warning btn-sm">
+                                                        Ver detalhes
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )
+                                    )
+                                }
+                                
                             })
                         }
                     </div>

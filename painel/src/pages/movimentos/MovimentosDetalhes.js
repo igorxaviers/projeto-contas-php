@@ -8,16 +8,12 @@ class MovimentosDetalhes extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            mov_id: '',
-            mov_valor: '',
-            mov_tipo: '',
-            mov_acerto: '',
-            mov_caixa: '',
+            id: '',
+            valor: '',
+            tipo: '',
+            acerto: '',
+            caixa: '',
             loading: false,
-            tipos: [
-                {id: 1, nome: 'Entrada'},
-                {id: 2, nome: 'Saída'}
-            ]
         }
     }
 
@@ -25,11 +21,11 @@ class MovimentosDetalhes extends React.Component {
         const location = this.props.location.state;
         if(location) {
             this.setState({
-                mov_id: location.mov_id,
-                mov_valor: location.mov_valor,
-                mov_acerto: location.mov_acerto,
-                mov_tipo: location.mov_tipo,
-                mov_caixa: location.mov_caixa,
+                id: location.id,
+                valor: location.valor,
+                acerto: location.acerto,
+                tipo: location.tipo,
+                caixa: location.caixa,
                 loading: false
             });
         }
@@ -48,7 +44,7 @@ class MovimentosDetalhes extends React.Component {
         return ( 
             <div>
                 <BackButton />
-                <h1 className="my-5 ">{this.state.mov_id ? 'Editar' : 'Cadastro'}</h1>
+                <h1 className="my-5 ">Detalhes da Movimentação</h1>
                 <form>
 
                     <label htmlFor="valor">Valor:</label>
@@ -57,9 +53,9 @@ class MovimentosDetalhes extends React.Component {
                         <input 
                             type="text"
                             className="form-control"
-                            name="mov_valor"
+                            name="valor"
                             placeholder="Valor da movimentação"
-                            value={this.state.mov_valor}
+                            value={this.state.valor}
                             readOnly/>
                     </div>
 
@@ -69,36 +65,44 @@ class MovimentosDetalhes extends React.Component {
                         <input 
                             type="date"
                             className="form-control"
-                            name="mov_acerto"
+                            name="acerto_data"
                             placeholder="Data da movimentação"
-                            value={this.state.mov_acerto}
+                            value={this.state.acerto.data}
                             readOnly />
                     </div>
 
                     <label htmlFor="tipo">Tipo:</label>
                     <div className="input-group mb-3" >
                     <span className="input-group-text" id="basic-addon2"><i className="fas fa-list"></i></span>
-                        <select 
+                        <input 
                             className="form-control"
-                            name="mov_tipo"
-                            value={this.state.mov_tipo}
-                            readOnly>
-
-                        </select>
+                            name="tipo"
+                            value={this.state.tipo === 1 ? 'Entrada' : 'Saída'}
+                            readOnly/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="motivo">Motivo:</label>
                         <textarea 
                             type="text"
                             className="form-control"
-                            name="mov_acerto"
+                            name="acerto_motivo"
                             placeholder=""
-                            value={this.state.mov_acerto}
+                            value={this.state.acerto.motivo}
                             readOnly>
                         </textarea>
+                    </div><br/>
+                    
+                    <label htmlFor="tipo">Caixa da movimentação:</label>
+                    <div className="input-group mb-3" >
+                    <span className="input-group-text" id="basic-addon2"><i className="fas fa-list"></i></span>
+                        <input 
+                            className="form-control"
+                            name="caixa"
+                            value={this.state.caixa.id}
+                            readOnly/>
                     </div>
                 </form>
-
+                <br/><br/><br/>
                 <ToastContainer
                     position="bottom-right"
                     theme="colored"
