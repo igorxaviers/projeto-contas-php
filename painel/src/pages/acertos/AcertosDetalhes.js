@@ -2,6 +2,8 @@ import React from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import BackButton from '../../components/BackButton/BackButton';
+
 class AcertosDetalhes extends React.Component {
     constructor(props) {
         super(props);
@@ -11,21 +13,26 @@ class AcertosDetalhes extends React.Component {
             ace_data: '',
             ace_tipo: '',
             ace_motivo: '',
-            loading: false
+            loading: false,
+            tipos: [
+                {id: 1, nome: 'Entrada'},
+                {id: 2, nome: 'Saída'}
+            ]
         }
     }
 
     componentDidMount() {
         const location = this.props.location.state;
-        console.log(location);
-        this.setState({
-            ace_id: location.ace_id,
-            ace_valor: location.ace_valor,
-            ace_data: location.ace_data,
-            ace_tipo: location.ace_tipo,
-            ace_motivo: location.ace_motivo,
-            loading: false
-        });
+        if(location) {
+            this.setState({
+                ace_id: location.ace_id,
+                ace_valor: location.ace_valor,
+                ace_data: location.ace_data,
+                ace_tipo: location.ace_tipo,
+                ace_motivo: location.ace_motivo,
+                loading: false
+            });
+        }
     }
 
     handleChange = (event) => {
@@ -36,9 +43,30 @@ class AcertosDetalhes extends React.Component {
             [name]: value
         });
     }
+    
+    cadastrarAcerto = () => {
+        this.setState({ loading: true });
+        const acerto = {
+            ace_valor: parseFloat(this.state.ace_valor),
+            ace_data: this.state.ace_data,
+            ace_tipo: parseInt(this.state.ace_tipo),
+            ace_motivo: this.state.ace_motivo,
+        };
+        axios.post('http://localhost/contas/controllers/AcertoController.php', JSON.stringify({acao: 1, acerto}))
+        .then(res => {
+            const response = res.data;
+            if(response.success)
+                toast.success(response.message);
+            else
+                toast.error(response.message);
+        })
+        .catch(err => {
+            toast.error('Erro ao alterar acerto!');
+        })
+        .finally(() => this.setState({ loading: false }));
+    }
 
     alterarAcerto = () => {
-        console.log(this.state);
         this.setState({ loading: true });
         const acerto = {
             ace_id: parseInt(this.state.ace_id),
@@ -47,40 +75,31 @@ class AcertosDetalhes extends React.Component {
             ace_tipo: parseInt(this.state.ace_tipo),
             ace_motivo: this.state.ace_motivo,
         };
-        console.log( {acao: 2, acerto});
-        const cors = 'https://cors-anywhere.herokuapp.com/';
-        // axios.get(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 2, acerto})
-        console.log(axios);
-        axios.post(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 2, acerto})
+        axios.post('http://localhost/contas/controllers/AcertoController.php', JSON.stringify({acao: 2, acerto}))
         .then(res => {
-            console.log(res);
-            toast.success(res.data,{ position: "bottom-right", theme: "colored"});
+            const response = res.data;
+            if(response.success)
+                toast.success(response.message);
+            else
+                toast.error(response.message);
         })
         .catch(err => {
-            toast.error('Erro ao alterar acerto!',{ position: "bottom-right", theme: "colored"});
+            toast.error('Erro ao alterar acerto!');
         })
         .finally(() => this.setState({ loading: false }));
     }
 
+
     render() { 
         return ( 
             <div>
-                <h1 className="mb-5">Detalhes</h1>
-
+                <BackButton />
+                <h1 className="my-5 ">{this.state.ace_id ? 'Editar' : 'Cadastro'}</h1>
                 <form>
-                    <div className="form-group">
-                        <label htmlFor="id">ID</label>
-                        <input 
-                            type="text"
-                            className="form-control"
-                            name="ace_id"
-                            placeholder=""
-                            value={this.state.ace_id}
-                            onChange={this.handleChange}
-                            readOnly  />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="valor">Valor</label>
+
+                    <label htmlFor="valor">Valor:</label>
+                    <div className="input-group mb-3" >
+                        <span className="input-group-text" id="basic-addon2"><i className="fas fa-dollar-sign"></i></span>
                         <input 
                             type="text"
                             className="form-control"
@@ -89,8 +108,10 @@ class AcertosDetalhes extends React.Component {
                             value={this.state.ace_valor}
                             onChange={this.handleChange}  />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="data">Data</label>
+
+                    <label htmlFor="data">Data:</label>
+                    <div className="input-group mb-3">
+                        <span className="input-group-text" id="basic-addon2"><i className="fas fa-calendar-alt"></i></span>
                         <input 
                             type="date"
                             className="form-control"
@@ -99,18 +120,23 @@ class AcertosDetalhes extends React.Component {
                             value={this.state.ace_data}
                             onChange={this.handleChange}  />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="tipo">Tipo</label>
-                        <input 
-                            type="text"
+
+                    <label htmlFor="tipo">Tipo:</label>
+                    <div className="input-group mb-3" >
+                    <span className="input-group-text" id="basic-addon2"><i className="fas fa-list"></i></span>
+                        <select 
                             className="form-control"
                             name="ace_tipo"
-                            placeholder="Tipo do acerto"
                             value={this.state.ace_tipo}
-                            onChange={this.handleChange}  />
+                            onChange={this.handleChange}>
+                            <option value="" disabled hidden>Selecione o tipo</option>
+                            {this.state.tipos.map(tipo => (
+                                <option key={tipo.id} value={tipo.id}>{tipo.nome}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="motivo">Motivo</label>
+                        <label htmlFor="motivo">Motivo:</label>
                         <textarea 
                             type="text"
                             className="form-control"
@@ -123,13 +149,22 @@ class AcertosDetalhes extends React.Component {
 
                     <button 
                         type="button" 
-                        className="btn btn-primary"
-                        onClick={this.alterarAcerto}
-
-                        >Salvar</button>
+                        className="btn btn-primary mt-3"
+                        onClick={this.state.ace_id ? this.alterarAcerto : this.cadastrarAcerto}>
+                        Salvar</button>
                 </form>
 
-                <ToastContainer/>
+                <ToastContainer
+                    position="bottom-right"
+                    theme="colored"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover/>
             </div>
         );
     }

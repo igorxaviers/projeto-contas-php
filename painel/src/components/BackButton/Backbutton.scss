@@ -1,0 +1,13 @@
+i.back{
+    padding: 15px 16px;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    font-size: 20px;
+    cursor: pointer;
+    &:hover{
+        background-color: #d1d1d1;
+        transform: scale(1.1) rotate(360deg);
+
+    }
+}

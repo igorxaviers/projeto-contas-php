@@ -10,7 +10,7 @@ function App() {
       <nav className="navbar bg-white text-center shadow-sm">
         <h1 className="w-100 text-center">Painel de Controle</h1>
       </nav>
-      <div className="container">
+      <div className="col-12 col-md-8 col-lg-6 mx-auto">
         <Router>
           <div className="mt-4 row justify-content-evenly">
             <Link 
