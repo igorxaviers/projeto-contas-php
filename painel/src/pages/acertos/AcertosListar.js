@@ -29,9 +29,7 @@ class AcertosListar extends React.Component {
 
     getAcertos = () => {
         this.setState({ loading: true });
-        const cors = 'https://cors-anywhere.herokuapp.com/';
-        // axios.post(cors+'https://contas-php.herokuapp.com/controllers/AcertoController.php', {acao: 4})
-        axios.post('http://localhost/ProjetoPHP/controllers/AcertoController.php', JSON.stringify({acao: 4}))
+        axios.post('http://localhost/contas/controllers/AcertoController.php', JSON.stringify({acao: 4}))
         .then(res => {
             this.setState({ acertos: res.data });
         })
@@ -49,7 +47,7 @@ class AcertosListar extends React.Component {
                     label: 'Sim',
                     onClick: () => {
                         this.setState({ loading: true });
-                        axios.post('http://localhost/ProjetoPHP/controllers/AcertoController.php', JSON.stringify({acao: 3, ace_id: id}))
+                        axios.post('http://localhost/contas/controllers/AcertoController.php', JSON.stringify({acao: 3, ace_id: id}))
                         .then(res => {
                             const response = res.data;
                             console.log(response);
