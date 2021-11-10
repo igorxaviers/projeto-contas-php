@@ -1,4 +1,11 @@
 <?php
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: Accept");
+    header("Access-Control-Allow-Headers: X-Requested-With");
+    header("Access-Control-Allow-Methods: POST, GET");
+    header("Access-Control-Max-Age: 3600");
+    header("Content-Type: application/json; charset=UTF-8");
+    header("Access-Control-Allow-Origin: http://localhost:3000, http://localhost:3000/acertos, http://localhost:3000/, http://localhost ");
     include_once("./Controller.php");
     include_once("./../model/Acerto.php");
 
@@ -37,10 +44,12 @@
                 break;
 
             default:
-                echo "Ação inválida";
+                echo json_encode("Ação inválida");
                 break;
         }
     }
+    else
+        echo json_encode("Problema request");
 
     function listar()
     {
@@ -59,37 +68,87 @@
     }
 
     function cadastrar($data) {
-        $time = strtotime($data->data);
-        $dataAcerto = date('Y-m-d',$time);
-        $acerto = new Acerto(0, $data->valor, $dataAcerto, $data->tipo, $data->motivo);
-        $acerto->cadastrar(Conexao::getConexao());
-    }
-
-    function alterar($data) {
-        var_dump($data);
+        $response = new stdClass();
         $novoAcerto = $data->acerto;
         $time = strtotime($novoAcerto->ace_data);
         $dataAcerto = date('Y-m-d',$time);
-        $acerto = new Acerto($novoAcerto->ace_id, $novoAcerto->ace_valor, $dataAcerto, $novoAcerto->ace_tipo, $novoAcerto->ace_motivo);
+        $acerto = new Acerto(0, $novoAcerto->ace_valor, $dataAcerto, $novoAcerto->ace_tipo, $novoAcerto->ace_motivo);
         $validaAcerto = $acerto->validar();
-        
-        if($validaAcerto['ok'])
+
+        if($validaAcerto['success'])
         {
-            $result = $acerto->alterar(Conexao::getConexao());
-            $result = json_encode($result);
-            echo $result;
+            $result = $acerto->cadastrar(Conexao::getConexao());
+            if($result)
+            {
+                $response->success = true;
+                $response->message = "Acerto cadastrado com sucesso!";
+
+            }
+            else
+            {
+                $response->success = false;
+                $response->message = "Erro ao cadastrar acerto!";
+            }
         }
         else
         {
-            echo json_encode($validaAcerto);
-            $validaAcerto = json_encode($validaAcerto);
-            echo $validaAcerto;
+            $response->success = false;
+            $response->message = $validaAcerto['message'];
         }
+        echo json_encode($response);
+    }
+
+    function alterar($data) {
+        $response = new stdClass();
+
+        $novoAcerto = $data->acerto;
+        $time = strtotime($novoAcerto->ace_data);
+        $dataAcerto = date('Y-m-d',$time);
+
+        $acerto = new Acerto($novoAcerto->ace_id, $novoAcerto->ace_valor, $dataAcerto, $novoAcerto->ace_tipo, $novoAcerto->ace_motivo);
+        
+        $validaAcerto = $acerto->validar();
+        
+        if($validaAcerto['success'])
+        {
+            $result = $acerto->alterar(Conexao::getConexao());
+            if($result)
+            {
+                $response->success = true;
+                $response->message = "Acerto alterado com sucesso!";
+
+            }
+            else
+            {
+                $response->success = false;
+                $response->message = "Erro ao alterar acerto!";
+            }
+        }
+        else
+        {
+            $response->success = false;
+            $response->message = $validaAcerto['message'];
+        }
+        echo json_encode($response);
     }
     
     function excluir($id) {
+        $response = new stdClass();
         $acerto = new Acerto();
-        $acerto->excluir(Conexao::getConexao(), $id);
+        $result = $acerto->excluir(Conexao::getConexao(), $id);
+
+        if($result)
+        {
+            $response->success = true;
+            $response->message = "Acerto excluído com sucesso!";
+        }
+        else
+        {
+            $response->success = false;
+            $response->message = "Erro ao excluir acerto!";
+        }
+
+        echo json_encode($response);
     }
 
 

@@ -7,22 +7,21 @@
         public function __construct(){}
         
         function cadastrar(mysqli $con, Acerto $acerto){
-            var_dump($acerto);
             $sql = "INSERT INTO acertos (ace_valor, ace_data, ace_tipo, ace_motivo) VALUES (".$acerto->valor.",'".$acerto->data."',".$acerto->tipo.",'".$acerto->motivo."')";
             $res = $con->query($sql);   
-            return $res ? true : $con->error;
+            return $res ? true : false;
         }
 
         function alterar(mysqli $con, Acerto $acerto){
             $sql = "UPDATE acertos SET ace_valor=".$acerto->valor.", ace_data='".$acerto->data."', ace_tipo=".$acerto->tipo.", ace_motivo='".$acerto->motivo."' WHERE ace_id=".$acerto->id."";
             $res = $con->query($sql);   
-            return $res ? true : $con->error;
+            return $res ? true : false;
         }
 
         function excluir(mysqli $con, int $id){
             $sql = "DELETE FROM acertos WHERE ace_id = ".$id."";
             $res = $con->query($sql); 
-            return $res ? true : $con->error;
+            return $res ? true : false;
         }
     
         function getAcerto(mysqli $con, int $ace_id) {

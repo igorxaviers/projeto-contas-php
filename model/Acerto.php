@@ -37,33 +37,30 @@
         }
 
         public function validar() {
-            $valida = array();
-            $ok = true;
-            if ($this->valor == 0) {
-                $valida['erro'] = "Valor não pode ser vazio";
-                $ok = false;
+            $valida['message'] = "";
+            $valida['success'] = true;
+            if (empty($this->valor)) {
+                $valida['message'] = "Valor não pode ser vazio";
+                $valida['success'] = false;
             }
-            if ($this->data == null) {
-                $valida['erro'] = "Data não pode ser vazia";
-                $ok = false;
+            if (empty($this->data)) {
+                $valida['message'] = "Data não pode ser vazia";
+                $valida['success'] = false;
             }
-            if (strlen($this->tipo) == 0) {
-                $valida['erro'] = "Tipo não pode ser vazio";
-                $ok = false;
+            if (empty($this->tipo)) {
+                $valida['message'] = "Tipo não pode ser vazio";
+                $valida['success'] = false;
             }
-            if (strlen($this->motivo) == 0) {
-                $valida['erro'] = "Motivo não pode ser vazio";
-                $ok = false;
+            if (empty($this->motivo)) {
+                $valida['message'] = "Motivo não pode ser vazio";
+                $valida['success'] = false;
             }
-            $valida['ok'] = $ok;
             return $valida;
         }
 
         public function cadastrar(mysqli $con) {
             $acertoDAO = new AcertoDAO();
-            $certo = $acertoDAO->cadastrar($con, $this);
-            echo $certo;
-            return $certo;
+            return $acertoDAO->cadastrar($con, $this);
         }
 
         public function excluir(mysqli $con, int $id) {
