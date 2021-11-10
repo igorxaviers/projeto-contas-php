@@ -39,11 +39,21 @@
         }
     
         function getMovimentos(mysqli $con) {
-            $query = "SELECT * FROM movimento_caixa";
+            $query = "SELECT * FROM movimento_caixa as MC
+                    INNER JOIN acertos as A ON MC.mov_acerto = A.ace_id
+                    INNER JOIN caixa as C  ON MC.mov_caixa = C.cai_id";
+
             $result = $con->query($query); 
             $listMovimentos = array();
             foreach ($result as $row) {
-                $listMovimentos[] = $row;
+                $listMovimentos[] = 
+                    new MovimentoCaixa(
+                        $row['mov_id'],
+                        new Acerto($row['ace_id'], $row['ace_valor'], $row['ace_data'], $row['ace_tipo'], $row['ace_motivo']),
+                        new Caixa($row['cai_id'], $row['cai_saldo_inicial'], $row['cai_saldo_final'], $row['cai_status']),
+                        $row['mov_valor'],
+                        $row['mov_tipo']
+                    );
             }
             return $listMovimentos;
         }
