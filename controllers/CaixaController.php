@@ -10,17 +10,9 @@
         switch($acao)
         {
             case 1:
-                cadastrar($data);
+                criarCaixa($data);
                 break;
-
-            case 2:
-                alterar($data);
-                break;
-
-            case 3:
-                excluir($data->id);
-                break;
-
+                
             case 4:
                 alterarStatus($data->id);
                 break;
@@ -35,26 +27,11 @@
         }
     }
 
-    function cadastrar($data) {
+    function criarCaixa($data) {
         $caixa = new Caixa(0, $data->saldo_Inicial, $data->saldo_Final, $data->status);
-        $caixa->cadastrar(Conexao::getConexao());
+        $caixa->criarCaixa(Conexao::getConexao());
     }
 
-    function alterar($data) {
-        $novoCaixa = $data->caixa;
-        $caixa = new Caixa($novoCaixa->cai_id, $novoCaixa->cai_saldo_inicial, $novoCaixa->cai_saldo_final, $novoCaixa->cai_status);
-        $validaCaixa = $caixa->validar();
-        if($validaCaixa['ok'])
-        {
-            $result = $caixa->alterar(Conexao::getConexao());
-            echo json_encode($result);
-        }
-        else
-        {
-            echo json_encode($validaCaixa);
-        }
-    }
-    
     function excluir($id) {
         $caixa = new Caixa();
         $caixa->excluir(Conexao::getConexao(), $id);

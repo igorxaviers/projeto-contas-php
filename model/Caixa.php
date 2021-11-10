@@ -39,42 +39,39 @@
             return $caixaDAO->getCaixa(Conexao::getConexao(), $id);
         }
     
-    public function alterarStatus(mysqli $con)
-    {
-        if($this->status == 0)
-            $this->abrirCaixa($con, $this->saldo_Inicial);
-        else
-            $this->fecharCaixa($con);
-    }   
+        public function atualizarStatus(mysqli $con)
+        {
+            $res = true;
+            if($this->status == 0)
+                $res = $this->abrirCaixa($con, $this->saldo_Inicial);
+            else
+                $res = $this->fecharCaixa($con);
+            return $res;
+        }   
 
-    public function abrirCaixa(mysqli $con, float $valorIni){
-        $this->status = 1;
-        $this->saldo_Inicial = $valorIni;
-        $this->saldo_Final = $valorIni;
-        return cadastrar($con);    
-    }
-
-    public function fecharCaixa(mysqli $con){
-        $this->status = 0;
-        return alterar($con);
-    }
-
-    public function atualizarSaldo(mysqli $con, float $valor){
-        $this->saldo_Final = $this->saldo_Final + $valor;
-        return alterar($con);
-    }
-
-
-        public function cadastrar(mysqli $con) {
-            $CaixaDAO = new CaixaDAO();
-            $certo = $CaixaDAO->cadastrar($con, $this);
-            echo $certo;
-            return $certo;
+        public function abrirCaixa(mysqli $con, float $valorIni){
+            $this->status = 1;
+            $this->saldo_Inicial = $valorIni;
+            $this->saldo_Final = $valorIni;
+            $caixaDAO = new CaixaDAO();
+            return $caixaDAO->criarCaixa($con, $this);
         }
 
-        public function alterar(mysqli $con) {
-            $caixaDAO = new CaixaDAO();
-            return $caixaDAO->alterar($con, $this);
+        public function fecharCaixa(mysqli $con){
+            $this->status = 0;
+            return alterar($con);
+        }
+
+        public function atualizarSaldo(mysqli $con, float $valor){
+            $this->saldo_Final = $this->saldo_Final + $valor;
+            return alterar($con);
+        }
+
+        public function criarCaixa(mysqli $con) {
+            $CaixaDAO = new CaixaDAO();
+            $certo = $CaixaDAO->criarCaixa($con, $this);
+            echo $certo;
+            return $certo;
         }
 
         public function excluir(mysqli $con, int $id) {
