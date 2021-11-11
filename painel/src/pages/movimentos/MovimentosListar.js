@@ -26,7 +26,7 @@ class MovimentosListar extends React.Component {
 
     getMovimentos = () => {
         this.setState({ loading: true });
-        axios.post('http://localhost/contas/controllers/MovimentoCaixaController.php', JSON.stringify({acao: 4}))
+        axios.post('http://localhost/ProjetoPHP/controllers/MovimentoCaixaController.php', JSON.stringify({acao: 4}))
         .then(res => {
             console.log(res.data);
             this.setState({ movimentos: res.data });

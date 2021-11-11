@@ -24,7 +24,7 @@ class Caixa extends React.Component {
         console.log('CARREGOU O CAIXA');
         if(this.state.caixa.id === 0)
         {
-            axios.get('http://localhost/contas/controllers/CaixaController.php')
+            axios.get('http://localhost/ProjetoPHP/controllers/CaixaController.php')
             
 
         }
@@ -43,7 +43,7 @@ class Caixa extends React.Component {
     }
 
     abrirCaixa = () => {
-        axios.post('http://localhost/contas/controllers/CaixaController.php', {
+        axios.post('http://localhost/ProjetoPHP/controllers/CaixaController.php', {
             acao: 'abrirCaixa',
             saldoInicial: this.state.caixa.saldoInicial,
             saldoFinal: this.state.caixa.saldoFinal,

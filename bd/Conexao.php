@@ -15,10 +15,10 @@
                 // );
                 
                 self::$con = new mysqli(
-                    "sql10.freemysqlhosting.net",    // Host
-                    "sql10448860",         // Usuario
-                    "uBFFiiRRfP",             // Senha
-                    "sql10448860"         // Banco de dados
+                    "us-cdbr-east-04.cleardb.com",    // Host
+                    "b5ed7a8828e2bd",         // Usuario
+                    "ab82cb38",             // Senha
+                    "heroku_5ac1a6cc288143a"         // Banco de dados
                 );
                 
                 

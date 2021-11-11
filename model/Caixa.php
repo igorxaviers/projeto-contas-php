@@ -6,12 +6,14 @@
         public $saldo_Inicial;
         public $saldo_Final;
         public $status;
+        public $data;
 
-        public function __construct(int $id=0, float $saldoI=0, float $saldoF=0,int $status = 0) {
+        public function __construct(int $id=0, float $saldoI=0, float $saldoF=0,int $status = 0, string $data = "") {
             $this->id = $id;
             $this->saldo_Inicial = $saldoI;
             $this->saldo_Final = $saldoF;
             $this->status = $status;
+            $this->data = $data;
         }
 
         public function getId() {
@@ -43,35 +45,30 @@
         {
             $res = true;
             if($this->status == 0)
-                $res = $this->abrirCaixa($con, $this->saldo_Inicial);
+                $res = $this->criarCaixa($con);
             else
                 $res = $this->fecharCaixa($con);
             return $res;
         }   
 
-        public function abrirCaixa(mysqli $con, float $valorIni){
-            $this->status = 1;
-            $this->saldo_Inicial = $valorIni;
-            $this->saldo_Final = $valorIni;
-            $caixaDAO = new CaixaDAO();
-            return $caixaDAO->criarCaixa($con, $this);
-        }
-
         public function fecharCaixa(mysqli $con){
             $this->status = 0;
-            return alterar($con);
+            $caixaDAO = new CaixaDAO();
+            return $caixaDAO->alterarStatus($con, $this);
         }
 
         public function atualizarSaldo(mysqli $con, float $valor){
             $this->saldo_Final = $this->saldo_Final + $valor;
-            return alterar($con);
+            $caixaDAO = new CaixaDAO();
+            return $caixaDAO->alterarSaldo($con, $this);
         }
 
         public function criarCaixa(mysqli $con) {
             $CaixaDAO = new CaixaDAO();
-            $certo = $CaixaDAO->criarCaixa($con, $this);
-            echo $certo;
-            return $certo;
+            $this->data = date('Y-m-d');
+            $this->status = 1;
+            $this->saldo_Final = $this->saldo_Inicial;
+            return $CaixaDAO->criarCaixa($con, $this);
         }
 
         public function excluir(mysqli $con, int $id) {
@@ -93,6 +90,10 @@
             if (strlen($this->status) == 0) {
                 $valida['erro'] = "Status não pode ser vazio";
                 $ok = false;
+            }
+            if (empty($this->data)) {
+                $valida['message'] = "Data não pode ser vazia";
+                $valida['success'] = false;
             }
             $valida['ok'] = $ok;
             return $valida;

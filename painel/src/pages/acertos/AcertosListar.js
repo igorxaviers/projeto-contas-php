@@ -29,7 +29,7 @@ class AcertosListar extends React.Component {
 
     getAcertos = () => {
         this.setState({ loading: true });
-        axios.post('http://localhost/contas/controllers/AcertoController.php', JSON.stringify({acao: 4}))
+        axios.post('http://localhost/ProjetoPHP/controllers/AcertoController.php', JSON.stringify({acao: 4}))
         .then(res => {
             this.setState({ acertos: res.data });
         })
@@ -47,7 +47,7 @@ class AcertosListar extends React.Component {
                     label: 'Sim',
                     onClick: () => {
                         this.setState({ loading: true });
-                        axios.post('http://localhost/contas/controllers/AcertoController.php', JSON.stringify({acao: 3, ace_id: id}))
+                        axios.post('http://localhost/ProjetoPHP/controllers/AcertoController.php', JSON.stringify({acao: 3, ace_id: id}))
                         .then(res => {
                             const response = res.data;
                             console.log(response);
@@ -116,7 +116,7 @@ class AcertosListar extends React.Component {
                                                 
                                                 <div className="">
                                                     <h5 className="">R$ {acerto.ace_valor}</h5>
-                                                    <p className="">{acerto.ace_tipo === 1 ? 'Entrada' : 'Saída'}</p>
+                                                    <p className="">{acerto.ace_tipo == 1 ? 'Entrada' : 'Saída'}</p>
                                                     <p className="my-0 fw-bold">Motivo</p>
                                                     <p className="p-2 rounded bg-light">{acerto.ace_motivo}</p>
                                                 </div>

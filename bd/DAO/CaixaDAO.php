@@ -7,13 +7,19 @@
         
         function criarCaixa(mysqli $con, Caixa $c){
             var_dump($c);
-            $sql = "INSERT INTO caixa (cai_saldo_inicial, cai_saldo_final, cai_status) VALUES (".$c->saldo_Inicial.",".$c->saldo_Final.",".$c->status.")";
+            $sql = "INSERT INTO caixa (cai_saldo_inicial, cai_saldo_final, cai_status, cai_data) VALUES (".$c->saldo_Inicial.",".$c->saldo_Final.",".$c->status.",'".$c->data."')";
             $res = $con->query($sql);   
             return $res ? true : false;
         }
 
-        function alterar(mysqli $con, Caixa $c){
-            $sql = "UPDATE caixa SET cai_saldo_inicial=".$c->saldo_Inicial.", cai_saldo_final=".$c->saldo_Final.", cai_status=".$c->status."' WHERE cai_id=".$c->id."";
+        function alterarStatus(mysqli $con, Caixa $c){
+            $sql = "UPDATE caixa SET cai_status=".$c->status." WHERE cai_id=".$c->id."";
+            $res = $con->query($sql);   
+            return $res ? true : false;
+        }
+
+        function alterarSaldo(mysqli $con, Caixa $c){
+            $sql = "UPDATE caixa SET cai_saldo_final=".$c->saldo_Final." WHERE cai_id=".$c->id."";
             $res = $con->query($sql);   
             return $res ? true : false;
         }
